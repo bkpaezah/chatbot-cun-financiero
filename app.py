@@ -6,7 +6,7 @@ como servicio web permanente en Render.com en vez de Azure Functions.
 
 import json
 import os
-import pyodbc
+import pytds
 from flask import Flask, request, jsonify
 from openai import AzureOpenAI
 
@@ -100,14 +100,12 @@ def get_client():
 
 def conectar_sql():
     sql_password = os.environ["SQL_PASSWORD"]
-    conn_str = (
-        f"DRIVER={{ODBC Driver 17 for SQL Server}};"
-        f"SERVER={SQL_SERVER};"
-        f"DATABASE={SQL_DATABASE};"
-        f"UID={SQL_USER};"
-        f"PWD={sql_password}"
+    return pytds.connect(
+        dsn=SQL_SERVER,
+        database=SQL_DATABASE,
+        user=SQL_USER,
+        password=sql_password,
     )
-    return pyodbc.connect(conn_str)
 
 
 # ============================================================

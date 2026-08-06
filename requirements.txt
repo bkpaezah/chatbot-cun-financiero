@@ -1,4 +1,4 @@
 flask
 gunicorn
-pyodbc
+python-tds
 openai
